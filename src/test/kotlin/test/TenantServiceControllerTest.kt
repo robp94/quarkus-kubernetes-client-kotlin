@@ -1,10 +1,8 @@
 package test
 
-import com.fasterxml.jackson.module.kotlin.KotlinModule
 import io.fabric8.kubernetes.api.model.NamespaceBuilder
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder
 import io.fabric8.kubernetes.client.server.mock.KubernetesServer
-import io.fabric8.kubernetes.client.utils.Serialization
 import io.quarkus.test.junit.QuarkusTest
 import io.quarkus.test.kubernetes.client.KubernetesTestServer
 import io.quarkus.test.kubernetes.client.WithKubernetesTestServer
@@ -31,7 +29,6 @@ internal class TenantServiceControllerTest {
 
     @BeforeEach
     fun setUp() {
-        Serialization.jsonMapper().registerModule(KotlinModule())
         createNameSpace(testTenant)
     }
 
