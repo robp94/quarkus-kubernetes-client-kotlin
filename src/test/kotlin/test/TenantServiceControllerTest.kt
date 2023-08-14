@@ -2,6 +2,7 @@ package test
 
 import io.fabric8.kubernetes.api.model.NamespaceBuilder
 import io.fabric8.kubernetes.api.model.ObjectMetaBuilder
+import io.fabric8.kubernetes.client.KubernetesClient
 import io.fabric8.kubernetes.client.server.mock.KubernetesServer
 import io.quarkus.test.junit.QuarkusTest
 import io.quarkus.test.kubernetes.client.KubernetesTestServer
@@ -25,6 +26,9 @@ internal class TenantServiceControllerTest {
     @Inject
     lateinit var kubernetesController: KubernetesController
 
+    @Inject
+    lateinit var kubernetesClient: KubernetesClient
+
     val testTenant = "testTenant"
 
     @BeforeEach
@@ -42,7 +46,7 @@ internal class TenantServiceControllerTest {
         val tenant = "getTenantServiceNullable"
         createNameSpace(tenant)
         val tenantService = createTenantServiceSchema(tenant, "USER")
-        mockServer.client.resources(Service::class.java).inNamespace(tenant).create(tenantService)
+        kubernetesClient.resources(Service::class.java).inNamespace(tenant).create(tenantService)
         val ts = tenantServiceController.getTenantServiceNullable(tenant)
 
         assertNull(tenantServiceController.getTenantServiceNullable(tenant))
